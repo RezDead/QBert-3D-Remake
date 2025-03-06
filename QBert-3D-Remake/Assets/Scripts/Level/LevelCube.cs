@@ -16,7 +16,10 @@ public class LevelCube : MonoBehaviour
     {
         GetComponent<MeshRenderer>().material = color[_currColor];
     }
-
+    
+    /// <summary>
+    /// Changes the color to the next color and checks if cube completed
+    /// </summary>
     public void NextColor()
     {
         if (_currColor == maxColor) return;
@@ -29,7 +32,10 @@ public class LevelCube : MonoBehaviour
         LevelManager.instance.CubeCompleted();
         _completed = true;
     }
-
+    
+    /// <summary>
+    /// Resets the color to 0 and informs level manager
+    /// </summary>
     public void ResetColor()
     {
         _currColor = 0;
