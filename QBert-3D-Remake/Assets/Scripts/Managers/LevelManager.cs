@@ -2,13 +2,22 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
+    [Header("Player Prefabs")] [SerializeField]
+    private GameObject playerPrefab;
+    
     [Header("Enemy Prefabs")] [SerializeField]
-    private GameObject redEgg, purpleEgg, wrongWay, slick;
+    private GameObject redEgg;
+    [SerializeField]private GameObject purpleEgg, wrongWay, slick;
 
     private GameObject[] _enemyArr;
 
     private const int TOTALCUBES = 28;
     private int _cubesCompleted = 0;
+
+    private void Start()
+    {
+        playerPrefab = Instantiate(playerPrefab);
+    }
 
     /// <summary>
     /// Raises the number of cubes completed, if all are completed ends round
@@ -56,6 +65,10 @@ public class LevelManager : Singleton<LevelManager>
     {
         
     }
-    
+
+    public Vector3 ReturnPlayerPosition()
+    {
+        return playerPrefab.transform.position;
+    }
     
 }
