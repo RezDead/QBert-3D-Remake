@@ -1,11 +1,15 @@
+using System;
 using UnityEngine;
 
 public class MovingObject : MonoBehaviour
 {
     public Direction actionDirection { get; private set; }
     public Direction currentDirection { get; private set; }
+    public float timeBetweenMovement = 1;
     private IMovementState _moveState, _lookState, _idleState;
     private MovementStateContext _context;
+    
+    protected bool xBorder = true, zBorder = true, lowerBorder = false;
     
     /// <summary>
     /// Adds all the states to object and sets starting state to idle
@@ -24,7 +28,6 @@ public class MovingObject : MonoBehaviour
     /// <summary>
     /// Makes the object move in a given direction
     /// </summary>
-    /// <param name="direction">Direction to move in</param>
     public void Move(Direction direction)
     {
         actionDirection = direction;
@@ -47,5 +50,31 @@ public class MovingObject : MonoBehaviour
     public void Idle()
     {
         _context.Transition(_idleState);
+    }
+
+    protected void OnTriggerEnter(Collider other)
+    {
+        print("enter");
+        if (other.gameObject.CompareTag("XBorder"))
+            xBorder = true;
+        
+        if (other.gameObject.CompareTag("ZBorder"))
+            zBorder = true;
+        
+        if (other.gameObject.CompareTag("LowerBorder"))
+            lowerBorder = true;
+    }
+    
+    protected void OnTriggerExit(Collider other)
+    {
+        print("exit");
+        if (other.gameObject.CompareTag("XBorder"))
+            xBorder = false;
+        
+        if (other.gameObject.CompareTag("ZBorder"))
+            zBorder = false;
+        
+        if (other.gameObject.CompareTag("LowerBorder"))
+            lowerBorder = false;
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MovingObject
 {
+    private bool _moving = false;
     private void OnGUI()
     {
         if (GUILayout.Button("UpLeft"))
