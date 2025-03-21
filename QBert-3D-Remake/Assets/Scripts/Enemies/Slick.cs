@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slick : MonoBehaviour
+public class Slick : BaseEnemy
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void AfterDescend()
     {
-        
+        Move(Random.Range(0, 2) == 0 ? Direction.DownLeft : Direction.DownRight);
+        StartCoroutine(DestroyEgg());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator DestroyEgg()
     {
-        
+        yield return new WaitForSeconds(timeBetweenMovement);
+        Destroy(gameObject);
     }
 }

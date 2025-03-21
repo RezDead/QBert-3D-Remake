@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
+    [SerializeField] private int roundsBeforeNextLevel = 0;
+    
     [Header("Player Prefabs")] [SerializeField]
     private GameObject playerPrefab;
     
     [Header("Enemy Prefabs")] [SerializeField]
     private GameObject redEgg;
     [SerializeField]private GameObject purpleEgg, wrongWay, slick;
-
+    
     private GameObject[] _enemyArr;
 
     private const int TOTALCUBES = 28;
@@ -16,7 +18,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
-        playerPrefab = Instantiate(playerPrefab);
+        playerPrefab = Instantiate(playerPrefab, new Vector3(100, 100, 100), Quaternion.identity);
     }
 
     /// <summary>
@@ -45,17 +47,26 @@ public class LevelManager : Singleton<LevelManager>
             Debug.LogWarning("Error with resetting cubes");
     }
 
-    public void StartRound()
+    private void StartRound()
     {
-        
+        UpdateData();
     }
     
     private void EndRound()
     {
         ResetEnemies();
-        PlayerData.instance.NewRound();
+        StartRound();
     }
 
+    private void UpdateData()
+    {
+        PlayerData.instance.currRound++;
+
+        if (PlayerData.instance.currRound <= roundsBeforeNextLevel) return;
+        
+        PlayerData.instance.currRound = 0; PlayerData.instance.currLevel++;
+    }
+    
     public void ResetEnemies()
     {
         

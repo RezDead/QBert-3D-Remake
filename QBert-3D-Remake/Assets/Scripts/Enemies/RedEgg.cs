@@ -6,6 +6,13 @@ public class RedEgg : BaseEnemy
 {
     protected override void AfterDescend()
     {
-        Destroy(this.gameObject);
+        Move(Random.Range(0, 2) == 0 ? Direction.DownLeft : Direction.DownRight);
+        StartCoroutine(DestroyEgg());
+    }
+
+    private IEnumerator DestroyEgg()
+    {
+        yield return new WaitForSeconds(timeBetweenMovement);
+        Destroy(gameObject);
     }
 }

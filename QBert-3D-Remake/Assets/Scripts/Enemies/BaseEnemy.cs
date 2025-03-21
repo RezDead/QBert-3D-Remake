@@ -7,7 +7,6 @@ public class BaseEnemy : MovingObject
 {
     public bool killable { get; private set; }
     public int score; 
-    public float timeBetweenMoves;
 
     protected override void Start()
     {
@@ -19,11 +18,11 @@ public class BaseEnemy : MovingObject
     {
         for (int timesDescended = 0; timesDescended < 6; timesDescended++)
         {
-            yield return new WaitForSeconds(timeBetweenMoves);
+            yield return new WaitForSeconds(timeBetweenMovement);
             Move(Random.Range(0, 2) == 0 ? Direction.DownLeft : Direction.DownRight);
         }
         
-        yield return new WaitForSeconds(timeBetweenMoves);
+        yield return new WaitForSeconds(timeBetweenMovement);
         
         AfterDescend();
     }

@@ -46,8 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0276a5d406628d34a9e7d5c1b4d8a445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  timeBetweenMovement: 1
+  timeBetweenMovement: 0.75
 --- !u!54 &-7754662457059769871
 Rigidbody:
   m_ObjectHideFlags: 0

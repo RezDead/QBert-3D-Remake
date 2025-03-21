@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class MovingObject : MonoBehaviour
@@ -52,9 +51,9 @@ public class MovingObject : MonoBehaviour
         _context.Transition(_idleState);
     }
 
-    protected void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        print("enter");
+        print("enter: " + other.gameObject.name);
         if (other.gameObject.CompareTag("XBorder"))
             xBorder = true;
         
@@ -63,11 +62,13 @@ public class MovingObject : MonoBehaviour
         
         if (other.gameObject.CompareTag("LowerBorder"))
             lowerBorder = true;
+
+        print("enter: X:" + xBorder + ", Z:" + zBorder + ", Y:" + lowerBorder);
     }
     
-    protected void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
-        print("exit");
+        print("exit: " + other.gameObject.name);
         if (other.gameObject.CompareTag("XBorder"))
             xBorder = false;
         
@@ -76,5 +77,7 @@ public class MovingObject : MonoBehaviour
         
         if (other.gameObject.CompareTag("LowerBorder"))
             lowerBorder = false;
+        
+        print("exit: X:" + xBorder + ", Z:" + zBorder + ", Y:" + lowerBorder);
     }
 }
