@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6819782212892061422}
   - component: {fileID: 3671128537583766349}
   - component: {fileID: 8683854041126675158}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: WrongWay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 4373420338007448307}
   - component: {fileID: 7656459443369121448}
   - component: {fileID: 9198524637492511977}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: eee81b0232973c44baf6ccd46a746334, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

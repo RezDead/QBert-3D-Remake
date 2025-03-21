@@ -1,16 +1,18 @@
+using System.Collections;
 using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private int roundsBeforeNextLevel = 0;
     
-    [Header("Player Prefabs")] [SerializeField]
+    [Header("Player Info")] [SerializeField]
     private GameObject playerPrefab;
+    [SerializeField] private float respawnTime = 4f;
     
     [Header("Enemy Prefabs")] [SerializeField]
     private GameObject redEgg;
     [SerializeField]private GameObject purpleEgg, wrongWay, slick;
-    
+
     private GameObject[] _enemyArr;
 
     private const int TOTALCUBES = 28;
@@ -18,9 +20,19 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
+        //Initialize _enemyArr
+        _enemyArr[0] = redEgg; _enemyArr[1] = purpleEgg; _enemyArr[2] = wrongWay; _enemyArr[3] = slick;
+        
         playerPrefab = Instantiate(playerPrefab, new Vector3(100, 100, 100), Quaternion.identity);
     }
 
+    public IEnumerator PlayerDeath(bool deathByFalling)
+    {
+        StartCoroutine(ResetEnemies(!deathByFalling));
+        playerPrefab.SetActive(false);
+        yield return new WaitForSeconds(respawnTime);
+    }
+    
     /// <summary>
     /// Raises the number of cubes completed, if all are completed ends round
     /// </summary>
@@ -54,7 +66,7 @@ public class LevelManager : Singleton<LevelManager>
     
     private void EndRound()
     {
-        ResetEnemies();
+        StartCoroutine(ResetEnemies(true));
         StartRound();
     }
 
@@ -67,12 +79,12 @@ public class LevelManager : Singleton<LevelManager>
         PlayerData.instance.currRound = 0; PlayerData.instance.currLevel++;
     }
     
-    public void ResetEnemies()
+    public IEnumerator ResetEnemies(bool killPurple)
     {
         
     }
 
-    private void SpawnEnemies()
+    private IEnumerator SpawnEnemies()
     {
         
     }

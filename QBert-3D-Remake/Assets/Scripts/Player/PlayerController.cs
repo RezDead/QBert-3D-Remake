@@ -80,4 +80,14 @@ public class PlayerController : MovingObject
         yield return new WaitForSeconds(timeBetweenMovement);
         _moving = false;
     }
+
+    private void CheckIfValid()
+    {
+        RaycastHit hit;
+        
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, .1f))
+        {
+            
+        }
+    }
 }

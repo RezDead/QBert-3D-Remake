@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6819782212892061422}
-  - component: {fileID: 1820948404272883907}
+  - component: {fileID: 3672024514481509136}
   - component: {fileID: 8683854041126675158}
   m_Layer: 2
-  m_Name: PurpleEgg
+  m_Name: Slick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 933458556082536901}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1820948404272883907
+--- !u!114 &3672024514481509136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,13 +43,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6033973794173732180}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 434596885a51467448e2333de31adc24, type: 3}
+  m_Script: {fileID: 11500000, guid: 38b1f77a690225941a3b0745e6b7b1c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenMovement: 1
   score: 0
-  discHit: 0
-  snakeMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &8683854041126675158
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -90,7 +88,7 @@ GameObject:
   - component: {fileID: 7656459443369121448}
   - component: {fileID: 9198524637492511977}
   m_Layer: 2
-  m_Name: Egg
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,7 +137,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a7716e6e0b2132f46bd7577088f103cd, type: 2}
+  - {fileID: 2100000, guid: 08167adfc63180b479141285d6520edb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
