@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -5,6 +6,19 @@ using UnityEngine.UIElements;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private TMP_Text livesTMP, scoreTMP, levelTMP, roundTMP;
+
+    private void Start()
+    {
+        UpdateAll();
+    }
+
+    private static void UpdateAll()
+    {
+        PlayerData.instance.currentScore = PlayerData.instance.currentScore;
+        PlayerData.instance.lives = PlayerData.instance.lives;
+        PlayerData.instance.currLevel = PlayerData.instance.currLevel;
+        PlayerData.instance.currRound = PlayerData.instance.currRound;
+    }
 
     public void UpdateScore(int score)
     {

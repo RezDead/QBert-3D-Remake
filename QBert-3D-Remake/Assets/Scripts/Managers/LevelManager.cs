@@ -1,10 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>
 {
@@ -15,12 +11,11 @@ public class LevelManager : Singleton<LevelManager>
     public float discUseTime;
     
     private GameObject _player;
-
-    [HideInInspector]public int discsInScene = 0;
+    
     private const int TOTALCUBES = 28;
     private int _cubesCompleted = 0;
 
-    public readonly Vector3 newWorldZero = new Vector3(100, 100, 100);
+    public Vector3 newWorldZero = new Vector3(100, 100, 100);
 
     private void OnEnable() 
     {
@@ -49,6 +44,14 @@ public class LevelManager : Singleton<LevelManager>
     {
         EnemyManager.instance.ResetEnemies(true);
         StartCoroutine(PlayerRespawn());
+        StartCoroutine(PlayerDeathEnemyDelay());
+    }
+
+    private IEnumerator PlayerDeathEnemyDelay()
+    {
+        EnemyManager.instance.StopSpawning();
+        yield return new WaitForSeconds(respawnTime);
+        EnemyManager.instance.StartSpawning();
     }
 
     private void DiscUsed()
@@ -88,6 +91,7 @@ public class LevelManager : Singleton<LevelManager>
         _cubesCompleted = 0;
         EnemyManager.instance.ResetEnemies(true);
         EnemyManager.instance.StopSpawning();
+        EnemyManager.instance.StartSpawning();
     }
     
     private IEnumerator PlayerRespawn()

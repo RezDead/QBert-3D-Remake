@@ -15,4 +15,19 @@ public class Slick : BaseEnemy
         yield return new WaitForSeconds(timeBetweenMovement);
         Destroy(gameObject);
     }
+    
+    protected override void OnCollisionEnter(Collision other)
+    {
+        if (!other.gameObject.CompareTag("Player")) return;
+        
+        if (killable)
+        {
+            PlayerData.instance.currentScore += score;
+            Destroy(gameObject);
+        }
+        else
+        {
+            EventBus.Publish(GameEvents.PlayerDeath);
+        }
+    }
 }

@@ -1,24 +1,20 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PurpleEgg : BaseEnemy
 {
-    public bool discHit = false;
     private Vector3 _currPlayerPos;
     [SerializeField] private Mesh snakeMesh;
     
-    // ReSharper disable Unity.PerformanceAnalysis
     protected override void AfterDescend()
     {
-
         GetComponentInChildren<MeshFilter>().mesh = snakeMesh;
         GetComponentInChildren<Transform>().localScale = new Vector3(0.25f, 1, 0.25f);
+        killable = false;
         StartCoroutine(Chase());
     }
     
-    
-
-    // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator Chase()
     {
         _currPlayerPos = LevelManager.instance.ReturnPlayerPosition();
@@ -74,22 +70,21 @@ public class PurpleEgg : BaseEnemy
         
         
         yield return new WaitForSeconds(timeBetweenMovement);
+
+        if (!CheckIfValid())
+        {
+            PlayerData.instance.currentScore += score;
+            Destroy(gameObject);
+        }
+        
         StartCoroutine(Chase());
     }
-
-    protected override void OnTriggerEnter(Collider other)
+    
+    private bool CheckIfValid()
     {
-        base.OnTriggerEnter(other);
+        RaycastHit hit;
         
-        if (other.gameObject.CompareTag("Player"))
-        {
-
-        }
+        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1f);
     }
 
-    private IEnumerator WaitThenDestroy()
-    {
-        yield return new WaitForSeconds(timeBetweenMovement);
-        
-    }
 }

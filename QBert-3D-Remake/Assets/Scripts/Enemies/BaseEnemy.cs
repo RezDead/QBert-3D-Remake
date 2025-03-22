@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BaseEnemy : MovingObject
 {
-    public bool killable { get; private set; }
-    public int score; 
+    [SerializeField] protected bool killable;
+    [SerializeField] protected int score; 
 
     protected override void Start()
     {
@@ -29,5 +31,18 @@ public class BaseEnemy : MovingObject
     {
         
     }
-    
+
+    protected virtual void OnCollisionEnter(Collision other)
+    {
+        if (!other.gameObject.CompareTag("Player")) return;
+        
+        if (killable)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            EventBus.Publish(GameEvents.PlayerDeath);
+        }
+    }
 }

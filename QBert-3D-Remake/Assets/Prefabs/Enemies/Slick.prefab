@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenMovement: 1
+  killable: 1
   score: 0
 --- !u!54 &8683854041126675158
 Rigidbody:

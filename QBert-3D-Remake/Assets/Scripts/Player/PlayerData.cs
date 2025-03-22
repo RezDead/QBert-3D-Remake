@@ -15,7 +15,7 @@ public class PlayerData : Singleton<PlayerData>
     }
 
     [SerializeField] private int _lives = 3;
-    private int lives
+    public int lives
     {
         get => _lives;
         set
@@ -26,7 +26,7 @@ public class PlayerData : Singleton<PlayerData>
     }
     
     private int _currLevel = 0;
-    private int currLevel
+    public int currLevel
     {
         get => _currLevel;
         set
@@ -37,7 +37,7 @@ public class PlayerData : Singleton<PlayerData>
     }
     
     private int _currRound = 1;
-    private int currRound
+    public int currRound
     {
         get => _currRound;
         set

@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenMovement: 1
-  score: 0
+  killable: 1
+  score: 300
   discHit: 0
   snakeMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &8683854041126675158
