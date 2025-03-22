@@ -10,8 +10,10 @@ public class PlayerData : Singleton<PlayerData>
     
     [SerializeField] private int roundsBeforeNextLevel = 5;
 
-    private void Start()
+    public override void Awake()
     {
+        base.Awake();
+        
         EventBus.Subscribe(GameEvents.PlayerDeath, PlayerDeath);
         EventBus.Subscribe(GameEvents.StartRound, StartRound);
         EventBus.Subscribe(GameEvents.NextLevel, NextLevel);
@@ -39,5 +41,7 @@ public class PlayerData : Singleton<PlayerData>
     private void NextLevel()
     {
         currLevel++;
+        print("Current Level: " + currLevel);
+        EventBus.Publish(GameEvents.StartRound);
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - ZBorder
   - LowerBorder
   - Slick
+  - Disc
   layers:
   - Default
   - TransparentFX

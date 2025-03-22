@@ -15,6 +15,7 @@ public class LevelManager : Singleton<LevelManager>
     [Header("Player Info")] [SerializeField]
     private GameObject playerPrefab;
     [SerializeField] private float respawnTime = 5f;
+    public float discUseTime;
     
     private GameObject _player;
     
@@ -35,20 +36,25 @@ public class LevelManager : Singleton<LevelManager>
     
     private List<Enemy> _currEnemies = new List<Enemy>();
 
+    [HideInInspector]public int discsInScene = 0;
     private const int TOTALCUBES = 28;
     private int _cubesCompleted = 0;
 
-    private Vector3 _newWorldZero = new Vector3(100, 100, 100);
+    public readonly Vector3 newWorldZero = new Vector3(100, 100, 100);
 
-    private void Start()
+    public override void Awake()
     {
+        base.Awake();
+        
         EventBus.Subscribe(GameEvents.StartRound, StartRound);
         EventBus.Subscribe(GameEvents.EndRound, EndRound);
         EventBus.Subscribe(GameEvents.DiscUsed, DiscUsed);
         EventBus.Subscribe(GameEvents.PlayerDeath, PlayerDeath);
         EventBus.Subscribe(GameEvents.NextLevel, NextLevel);
-        
-        
+    }
+    
+    private void Start()
+    {
         EventBus.Publish(GameEvents.NextLevel);
     }
 
@@ -61,32 +67,33 @@ public class LevelManager : Singleton<LevelManager>
 
     private void DiscUsed()
     {
-        
+        StopCoroutine(SpawnEnemies());
     }
 
     private void NextLevel()
     {
         print("Next Level");
-        _player = Instantiate(playerPrefab, _newWorldZero, Quaternion.identity);
     }
     
-    public IEnumerator PlayerRespawn()
+    private IEnumerator PlayerRespawn()
     {
         Destroy(_player);
         yield return new WaitForSeconds(respawnTime);
-        _player = Instantiate(playerPrefab, _newWorldZero, Quaternion.identity);
+        _player = Instantiate(playerPrefab, newWorldZero, Quaternion.identity);
     }
     
     /// <summary>
     /// Raises the number of cubes completed, if all are completed ends round
     /// </summary>
-    public void CubeCompleted()
+    public IEnumerator CubeCompleted()
     {
         _cubesCompleted++;
-        
+        print("Cube Completed: " + _cubesCompleted);
         //All cubes completed
         if (_cubesCompleted == TOTALCUBES)
         {
+            Destroy(_player);
+            yield return new WaitForNextFrameUnit();
             EventBus.Publish(GameEvents.EndRound);
         }
     }
@@ -105,17 +112,21 @@ public class LevelManager : Singleton<LevelManager>
 
     private void StartRound()
     {
+        _player = Instantiate(playerPrefab, newWorldZero, Quaternion.identity);
         StartCoroutine(SpawnEnemies());
+        _cubesCompleted = 0;
+        print("New Round");
     }
     
     private void EndRound()
     {
         StopCoroutine(SpawnEnemies());
         ResetEnemies(true);
+        print("End Round");
         EventBus.Publish(GameEvents.StartRound);
     }
     
-    public void ResetEnemies(bool killPurple)
+    private void ResetEnemies(bool killPurple)
     {
 
         Enemy[] enemies = _currEnemies.ToArray();
@@ -148,6 +159,7 @@ public class LevelManager : Singleton<LevelManager>
     /// </summary>
     private IEnumerator SpawnEnemies()
     {
+        print("Spawning Enemies");
         yield return new WaitForSeconds(enemySpawnRate);
 
         EnemyTypes enemySpawned = (EnemyTypes)Random.Range(0, 4);
@@ -157,11 +169,11 @@ public class LevelManager : Singleton<LevelManager>
         switch (enemySpawned)
         {
             case EnemyTypes.RedEgg:
-                spawnedEnemyObj = Instantiate(enemyTypes[0], _newWorldZero, Quaternion.identity);
+                spawnedEnemyObj = Instantiate(enemyTypes[0], newWorldZero, Quaternion.identity);
                 _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.RedEgg));
                 break;
             case EnemyTypes.PurpleEgg:
-                spawnedEnemyObj = Instantiate(enemyTypes[1], _newWorldZero, Quaternion.identity);
+                spawnedEnemyObj = Instantiate(enemyTypes[1], newWorldZero, Quaternion.identity);
                 _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.PurpleEgg));
                 break;
             case EnemyTypes.WrongWay:
@@ -179,7 +191,7 @@ public class LevelManager : Singleton<LevelManager>
                 }
                 break;
             case EnemyTypes.Slick:
-                spawnedEnemyObj = Instantiate(enemyTypes[3], _newWorldZero, Quaternion.identity);
+                spawnedEnemyObj = Instantiate(enemyTypes[3], newWorldZero, Quaternion.identity);
                 _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.RedEgg));
                 break;
             default:

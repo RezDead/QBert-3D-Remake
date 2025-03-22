@@ -5,6 +5,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MovingObject
 {
+    //Used specially for disc movement
+    private bool _discMoving = false;
+    private Vector3 _startPos;
+    private Vector3 _midPos;
+    private Vector3 _endPos;
+    private float _elapsedTime;
+    
     private bool _moving = false;
     private PlayerControls _playerControls;   
     
@@ -13,6 +20,12 @@ public class PlayerController : MovingObject
     private void Awake()
     {
         _playerControls = new PlayerControls();
+        EventBus.Subscribe(GameEvents.DiscUsed, DiscUsed);
+    }
+
+    private void OnDestroy()
+    {
+        EventBus.Unsubscribe(GameEvents.DiscUsed, DiscUsed);
     }
 
     private void OnEnable()
@@ -74,17 +87,69 @@ public class PlayerController : MovingObject
         StartCoroutine(UpdateMovement());
     }
 
+    private void DiscUsed()
+    {
+        _startPos = transform.position;
+        _midPos = new Vector3(_startPos.x, LevelManager.instance.newWorldZero.y, _startPos.z);
+        _endPos = LevelManager.instance.newWorldZero;
+        _elapsedTime = 0;
+        StartCoroutine(DiscMovement());
+    }
+
+    private IEnumerator DiscMovement()
+    {
+        _moving = true;
+        _discMoving = true;
+        yield return new WaitForSeconds(LevelManager.instance.discUseTime);
+        _discMoving = false;
+        _moving = false;
+    }
+
     private IEnumerator UpdateMovement()
     {
         _moving = true;
         yield return new WaitForSeconds(timeBetweenMovement);
         _moving = false;
+        
+        if (!CheckIfValid())
+            EventBus.Publish(GameEvents.PlayerDeath);
     }
 
     private bool CheckIfValid()
     {
         RaycastHit hit;
         
-        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1f);
+        bool hitObj = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1f);
+        
+        if (hitObj && hit.collider.CompareTag("Disc"))
+        {
+            EventBus.Publish(GameEvents.DiscUsed);
+            hit.collider.GetComponent<Disc>().DiscHit();
+            return true;
+        }
+        
+        return hitObj;
+    }
+
+    private void Update()
+    {
+        if (!_discMoving) return;
+        
+        _elapsedTime += Time.deltaTime;
+        float percentComplete = (_elapsedTime / LevelManager.instance.discUseTime) * 2;
+
+        if (percentComplete <= 1f)
+        {
+            transform.position = Vector3.Lerp(_startPos, _midPos, percentComplete);
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(_midPos, _endPos, percentComplete - 1);
+        }
+
+        if (percentComplete >= 2)
+        {
+            _moving = false;
+        }
     }
 }
