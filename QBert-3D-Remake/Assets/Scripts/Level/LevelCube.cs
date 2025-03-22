@@ -11,6 +11,7 @@ public class LevelCube : MonoBehaviour
     [SerializeField] private Material[] color;
     [SerializeField] private int maxColor;
     private bool _completed = false;
+    [SerializeField] private bool loop;
 
     private void Start()
     {
@@ -22,11 +23,19 @@ public class LevelCube : MonoBehaviour
     /// </summary>
     public void NextColor()
     {
-        if (_currColor == maxColor) return;
+        if (_currColor != maxColor)
+        {
+            if (loop && _completed)
+            {
+                ResetColor();
+            }
+            else
+            {
+                _currColor++;
+                GetComponent<MeshRenderer>().material = color[_currColor];
+            }
+        }
         
-        _currColor++;
-        GetComponent<MeshRenderer>().material = color[_currColor];
-
         if (_currColor != maxColor) return;
         
         LevelManager.instance.CubeCompleted();
@@ -36,13 +45,24 @@ public class LevelCube : MonoBehaviour
     /// <summary>
     /// Resets the color to 0 and informs level manager
     /// </summary>
-    public void ResetColor()
+    private void ResetColor()
     {
+        if(_currColor == 0) return;
+        
         _currColor = 0;
         GetComponent<MeshRenderer>().material = color[0];
         
         if (!_completed) return;
         
         LevelManager.instance.CubeReset();
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+            NextColor();
+        
+        if (other.gameObject.CompareTag("Slick"))
+            ResetColor();
     }
 }

@@ -53,7 +53,6 @@ public class MovingObject : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        print("enter: " + other.gameObject.name);
         if (other.gameObject.CompareTag("XBorder"))
             xBorder = true;
         
@@ -62,13 +61,10 @@ public class MovingObject : MonoBehaviour
         
         if (other.gameObject.CompareTag("LowerBorder"))
             lowerBorder = true;
-
-        print("enter: X:" + xBorder + ", Z:" + zBorder + ", Y:" + lowerBorder);
     }
     
     protected virtual void OnTriggerExit(Collider other)
     {
-        print("exit: " + other.gameObject.name);
         if (other.gameObject.CompareTag("XBorder"))
             xBorder = false;
         
@@ -77,7 +73,5 @@ public class MovingObject : MonoBehaviour
         
         if (other.gameObject.CompareTag("LowerBorder"))
             lowerBorder = false;
-        
-        print("exit: X:" + xBorder + ", Z:" + zBorder + ", Y:" + lowerBorder);
     }
 }

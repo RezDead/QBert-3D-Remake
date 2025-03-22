@@ -6,30 +6,30 @@ using UnityEngine.InputSystem;
 public class PlayerController : MovingObject
 {
     private bool _moving = false;
-    private PlayerControls playerControls;   
+    private PlayerControls _playerControls;   
     
     private InputAction _upLeft, _upRight, _downLeft,_downRight;
 
     private void Awake()
     {
-        playerControls = new PlayerControls();
+        _playerControls = new PlayerControls();
     }
 
     private void OnEnable()
     {
-        _upLeft = playerControls.PlayerMovement.UpLeft;
+        _upLeft = _playerControls.PlayerMovement.UpLeft;
         _upLeft.Enable();
         _upLeft.performed += UpLeft;
         
-        _upRight = playerControls.PlayerMovement.UpRight;
+        _upRight = _playerControls.PlayerMovement.UpRight;
         _upRight.Enable();
         _upRight.performed += UpRight;
         
-        _downLeft = playerControls.PlayerMovement.DownLeft;
+        _downLeft = _playerControls.PlayerMovement.DownLeft;
         _downLeft.Enable();
         _downLeft.performed += DownLeft;
         
-        _downRight = playerControls.PlayerMovement.DownRight;
+        _downRight = _playerControls.PlayerMovement.DownRight;
         _downRight.Enable();
         _downRight.performed += DownRight;
     }
@@ -81,13 +81,10 @@ public class PlayerController : MovingObject
         _moving = false;
     }
 
-    private void CheckIfValid()
+    private bool CheckIfValid()
     {
         RaycastHit hit;
         
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, .1f))
-        {
-            
-        }
+        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1f);
     }
 }

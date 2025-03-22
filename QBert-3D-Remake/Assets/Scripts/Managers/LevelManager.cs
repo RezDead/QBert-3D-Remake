@@ -1,36 +1,80 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    [SerializeField] private int roundsBeforeNextLevel = 0;
+    
+    [Header("Level Settings")]
+    [SerializeField] private LevelSettings[] levelSettings;
+    [SerializeField] private RoundSettings[] roundSettings;
     
     [Header("Player Info")] [SerializeField]
     private GameObject playerPrefab;
-    [SerializeField] private float respawnTime = 4f;
+    [SerializeField] private float respawnTime = 5f;
     
-    [Header("Enemy Prefabs")] [SerializeField]
-    private GameObject redEgg;
-    [SerializeField]private GameObject purpleEgg, wrongWay, slick;
-
-    private GameObject[] _enemyArr;
+    private GameObject _player;
+    
+    [Header("Enemy Info")]
+    [SerializeField] private GameObject[] enemyTypes;
+    [SerializeField] private float enemySpawnRate = 5f;
+    
+    struct Enemy
+    {
+        public Enemy(GameObject enemyObject, EnemyTypes type)
+        {
+            this.enemyObject = enemyObject; this.type = type;
+        }
+        
+        public GameObject enemyObject;
+        public EnemyTypes type;
+    }
+    
+    private List<Enemy> _currEnemies = new List<Enemy>();
 
     private const int TOTALCUBES = 28;
     private int _cubesCompleted = 0;
 
+    private Vector3 _newWorldZero = new Vector3(100, 100, 100);
+
     private void Start()
     {
-        //Initialize _enemyArr
-        _enemyArr[0] = redEgg; _enemyArr[1] = purpleEgg; _enemyArr[2] = wrongWay; _enemyArr[3] = slick;
+        EventBus.Subscribe(GameEvents.StartRound, StartRound);
+        EventBus.Subscribe(GameEvents.EndRound, EndRound);
+        EventBus.Subscribe(GameEvents.DiscUsed, DiscUsed);
+        EventBus.Subscribe(GameEvents.PlayerDeath, PlayerDeath);
+        EventBus.Subscribe(GameEvents.NextLevel, NextLevel);
         
-        playerPrefab = Instantiate(playerPrefab, new Vector3(100, 100, 100), Quaternion.identity);
+        
+        EventBus.Publish(GameEvents.NextLevel);
     }
 
-    public IEnumerator PlayerDeath(bool deathByFalling)
+    private void PlayerDeath()
     {
-        StartCoroutine(ResetEnemies(!deathByFalling));
-        playerPrefab.SetActive(false);
+        StopCoroutine(SpawnEnemies());
+        ResetEnemies(true);
+        StartCoroutine(PlayerRespawn());
+    }
+
+    private void DiscUsed()
+    {
+        
+    }
+
+    private void NextLevel()
+    {
+        print("Next Level");
+        _player = Instantiate(playerPrefab, _newWorldZero, Quaternion.identity);
+    }
+    
+    public IEnumerator PlayerRespawn()
+    {
+        Destroy(_player);
         yield return new WaitForSeconds(respawnTime);
+        _player = Instantiate(playerPrefab, _newWorldZero, Quaternion.identity);
     }
     
     /// <summary>
@@ -43,7 +87,7 @@ public class LevelManager : Singleton<LevelManager>
         //All cubes completed
         if (_cubesCompleted == TOTALCUBES)
         {
-            EndRound();
+            EventBus.Publish(GameEvents.EndRound);
         }
     }
 
@@ -54,44 +98,104 @@ public class LevelManager : Singleton<LevelManager>
     {
         _cubesCompleted--;
         
-        //Something very wrong has occured
+        //Something very wrong has occured :(
         if(_cubesCompleted < 0)
-            Debug.LogWarning("Error with resetting cubes");
+            Debug.LogWarning("Error with resetting cubes: " + _cubesCompleted);
     }
 
     private void StartRound()
     {
-        UpdateData();
+        StartCoroutine(SpawnEnemies());
     }
     
     private void EndRound()
     {
-        StartCoroutine(ResetEnemies(true));
-        StartRound();
-    }
-
-    private void UpdateData()
-    {
-        PlayerData.instance.currRound++;
-
-        if (PlayerData.instance.currRound <= roundsBeforeNextLevel) return;
-        
-        PlayerData.instance.currRound = 0; PlayerData.instance.currLevel++;
+        StopCoroutine(SpawnEnemies());
+        ResetEnemies(true);
+        EventBus.Publish(GameEvents.StartRound);
     }
     
-    public IEnumerator ResetEnemies(bool killPurple)
+    public void ResetEnemies(bool killPurple)
     {
+
+        Enemy[] enemies = _currEnemies.ToArray();
+        List<Enemy> tempCurrEnemies = new List<Enemy>();
         
+        
+        for (int enemiesProcessed = 0; enemiesProcessed < enemies.Length; enemiesProcessed++)
+        {
+            if (enemies[enemiesProcessed].type != EnemyTypes.PurpleEgg && !killPurple)
+            {
+                Destroy(enemies[enemiesProcessed].enemyObject);
+            }
+
+            else if (enemies[enemiesProcessed].type == EnemyTypes.PurpleEgg && !killPurple)
+            {
+                tempCurrEnemies.Add(enemies[enemiesProcessed]);
+            }
+
+            else
+            {
+                Destroy(enemies[enemiesProcessed].enemyObject);
+            }
+        }
+        
+        _currEnemies = tempCurrEnemies;
     }
 
+    /// <summary>
+    /// Spawns a random enemy based on how often enemy spawn rate is set to.
+    /// </summary>
     private IEnumerator SpawnEnemies()
     {
+        yield return new WaitForSeconds(enemySpawnRate);
+
+        EnemyTypes enemySpawned = (EnemyTypes)Random.Range(0, 4);
+
+        GameObject spawnedEnemyObj;
+
+        switch (enemySpawned)
+        {
+            case EnemyTypes.RedEgg:
+                spawnedEnemyObj = Instantiate(enemyTypes[0], _newWorldZero, Quaternion.identity);
+                _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.RedEgg));
+                break;
+            case EnemyTypes.PurpleEgg:
+                spawnedEnemyObj = Instantiate(enemyTypes[1], _newWorldZero, Quaternion.identity);
+                _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.PurpleEgg));
+                break;
+            case EnemyTypes.WrongWay:
+                if (Random.Range(0, 2) == 0)
+                {
+                    spawnedEnemyObj = Instantiate(enemyTypes[2], new Vector3(93, 93, 100), Quaternion.identity);
+                    spawnedEnemyObj.GetComponent<WrongWay>().rightStart = false;
+                    _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.WrongWay));
+                }
+                else
+                {
+                    spawnedEnemyObj = Instantiate(enemyTypes[2], new Vector3(100, 93, 93), Quaternion.identity);
+                    spawnedEnemyObj.GetComponent<WrongWay>().rightStart = true;
+                    _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.WrongWay));
+                }
+                break;
+            case EnemyTypes.Slick:
+                spawnedEnemyObj = Instantiate(enemyTypes[3], _newWorldZero, Quaternion.identity);
+                _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.RedEgg));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
         
+        StartCoroutine(SpawnEnemies());
     }
 
+    /// <summary>
+    /// Used to fetch players world position
+    /// </summary>
+    /// <returns>Players world position</returns>
     public Vector3 ReturnPlayerPosition()
     {
-        return playerPrefab.transform.position;
+        return _player.transform.position;
     }
     
 }

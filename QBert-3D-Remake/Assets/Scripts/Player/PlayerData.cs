@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerData : Singleton<PlayerData>
@@ -6,4 +7,37 @@ public class PlayerData : Singleton<PlayerData>
     public int lives = 3;
     public int currLevel = 0;
     public int currRound = 0;
+    
+    [SerializeField] private int roundsBeforeNextLevel = 5;
+
+    private void Start()
+    {
+        EventBus.Subscribe(GameEvents.PlayerDeath, PlayerDeath);
+        EventBus.Subscribe(GameEvents.StartRound, StartRound);
+        EventBus.Subscribe(GameEvents.NextLevel, NextLevel);
+    }
+
+    private void PlayerDeath()
+    {
+        lives--;
+        if (lives <= 0)
+        {
+            EventBus.Publish(GameEvents.GameOver);
+        }
+    }
+
+    private void StartRound()
+    {
+        currRound++;
+
+        if (currRound <= roundsBeforeNextLevel) return;
+        
+        currRound = 0;
+        EventBus.Publish(GameEvents.NextLevel);
+    }
+
+    private void NextLevel()
+    {
+        currLevel++;
+    }
 }
