@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenMovement: 0.75
-  discMoveTime: 4
 --- !u!54 &-7754662457059769871
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -74,7 +73,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!1 &1910437406872421433
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +175,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LevelCube : MonoBehaviour
 {
-    public int score = 25;
+    [SerializeField] private int score = 25;
     
     private int _currColor = 0;
     [SerializeField] private Material[] color;
@@ -13,9 +13,14 @@ public class LevelCube : MonoBehaviour
     private bool _completed = false;
     [SerializeField] private bool loop;
 
-    private void Awake()
+    private void OnEnable()
     {
         EventBus.Subscribe(GameEvents.EndRound, NextRound);
+    }
+
+    private void OnDisable()
+    {
+        EventBus.Unsubscribe(GameEvents.EndRound, NextRound);
     }
     
     private void Start()
@@ -35,24 +40,23 @@ public class LevelCube : MonoBehaviour
     /// </summary>
     private void NextColor()
     {
-        if (_currColor != maxColor)
+        if (loop && _completed)
         {
-            if (loop && _completed)
+            ResetColor();
+            PlayerData.instance.currentScore += score;
+        }
+        else if (!_completed)
+        {
+            _currColor++;
+            GetComponent<MeshRenderer>().material = color[_currColor];
+            PlayerData.instance.currentScore += score;
+            
+            if (_currColor == maxColor)
             {
-                ResetColor();
-            }
-            else
-            {
-                _currColor++;
-                GetComponent<MeshRenderer>().material = color[_currColor];
+                _completed = true;
+                StartCoroutine(LevelManager.instance.CubeCompleted());
             }
         }
-        
-        if (_currColor != maxColor) return;
-        if (_completed) return;
-        
-        StartCoroutine(LevelManager.instance.CubeCompleted());
-        _completed = true;
     }
     
     /// <summary>
