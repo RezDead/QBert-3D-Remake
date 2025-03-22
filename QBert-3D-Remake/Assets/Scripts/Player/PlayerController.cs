@@ -124,7 +124,7 @@ public class PlayerController : MovingObject
         if (hitObj && hit.collider.CompareTag("Disc"))
         {
             EventBus.Publish(GameEvents.DiscUsed);
-            hit.collider.GetComponent<Disc>().DiscHit();
+            hit.collider.GetComponentInParent<Disc>().DiscHit();
             return true;
         }
         

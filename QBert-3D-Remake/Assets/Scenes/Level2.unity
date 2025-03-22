@@ -194,7 +194,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -272,7 +272,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -350,7 +350,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -564,7 +564,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -827,7 +827,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -923,7 +923,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1007,7 +1007,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1121,7 +1121,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1199,7 +1199,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1509,7 +1509,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1593,7 +1593,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1773,7 +1773,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1881,7 +1881,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1959,7 +1959,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2043,7 +2043,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2121,7 +2121,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2199,7 +2199,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2283,7 +2283,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2361,7 +2361,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2439,7 +2439,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2517,7 +2517,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2595,7 +2595,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2732,7 +2732,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2968,7 +2968,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3052,7 +3052,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3142,7 +3142,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3226,7 +3226,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3310,7 +3310,7 @@ PrefabInstance:
     - target: {fileID: 5498948926453547718, guid: b5dc53264d8405c4c85805319bba6fbe,
         type: 3}
       propertyPath: maxColor
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

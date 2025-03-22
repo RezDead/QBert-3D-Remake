@@ -3,15 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    
-    [Header("Level Settings")]
-    [SerializeField] private LevelSettings[] levelSettings;
-    [SerializeField] private RoundSettings[] roundSettings;
-    
+
     [Header("Player Info")] [SerializeField]
     private GameObject playerPrefab;
     [SerializeField] private float respawnTime = 5f;
@@ -35,6 +32,7 @@ public class LevelManager : Singleton<LevelManager>
     }
     
     private List<Enemy> _currEnemies = new List<Enemy>();
+    private bool _spawningEnemies = false;
 
     [HideInInspector]public int discsInScene = 0;
     private const int TOTALCUBES = 28;
@@ -60,18 +58,28 @@ public class LevelManager : Singleton<LevelManager>
 
     private void PlayerDeath()
     {
-        StopCoroutine(SpawnEnemies());
+        _spawningEnemies = false;
         ResetEnemies(true);
         StartCoroutine(PlayerRespawn());
     }
 
     private void DiscUsed()
     {
-        StopCoroutine(SpawnEnemies());
+        StartCoroutine(OnDiscUsed());
+    }
+
+    private IEnumerator OnDiscUsed()
+    {
+        _spawningEnemies = false;
+        ResetEnemies(false);
+        yield return new WaitForSeconds(discUseTime);
+        if (!_spawningEnemies)
+            StartCoroutine(SpawnEnemies());
     }
 
     private void NextLevel()
     {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         print("Next Level");
     }
     
@@ -112,18 +120,23 @@ public class LevelManager : Singleton<LevelManager>
 
     private void StartRound()
     {
+        if (_player != null)
+        {
+            Destroy(_player);
+        }
+
         _player = Instantiate(playerPrefab, newWorldZero, Quaternion.identity);
-        StartCoroutine(SpawnEnemies());
+        if (!_spawningEnemies)
+            StartCoroutine(SpawnEnemies());
         _cubesCompleted = 0;
         print("New Round");
     }
     
     private void EndRound()
     {
-        StopCoroutine(SpawnEnemies());
+        _spawningEnemies = false;
         ResetEnemies(true);
         print("End Round");
-        EventBus.Publish(GameEvents.StartRound);
     }
     
     private void ResetEnemies(bool killPurple)
@@ -160,6 +173,9 @@ public class LevelManager : Singleton<LevelManager>
     private IEnumerator SpawnEnemies()
     {
         print("Spawning Enemies");
+        
+        _spawningEnemies = true;
+        
         yield return new WaitForSeconds(enemySpawnRate);
 
         EnemyTypes enemySpawned = (EnemyTypes)Random.Range(0, 4);
@@ -197,6 +213,8 @@ public class LevelManager : Singleton<LevelManager>
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        _spawningEnemies = false;
         
         StartCoroutine(SpawnEnemies());
     }

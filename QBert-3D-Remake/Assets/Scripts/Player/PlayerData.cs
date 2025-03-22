@@ -6,7 +6,7 @@ public class PlayerData : Singleton<PlayerData>
     public int currentScore = 0;
     public int lives = 3;
     public int currLevel = 0;
-    public int currRound = 0;
+    public int currRound = 1;
     
     [SerializeField] private int roundsBeforeNextLevel = 5;
 
@@ -15,8 +15,10 @@ public class PlayerData : Singleton<PlayerData>
         base.Awake();
         
         EventBus.Subscribe(GameEvents.PlayerDeath, PlayerDeath);
-        EventBus.Subscribe(GameEvents.StartRound, StartRound);
+        EventBus.Subscribe(GameEvents.EndRound, EndRound);
         EventBus.Subscribe(GameEvents.NextLevel, NextLevel);
+
+        roundsBeforeNextLevel++;
     }
 
     private void PlayerDeath()
@@ -28,14 +30,21 @@ public class PlayerData : Singleton<PlayerData>
         }
     }
 
-    private void StartRound()
+    private void EndRound()
     {
         currRound++;
-
-        if (currRound <= roundsBeforeNextLevel) return;
+        if (currRound >= roundsBeforeNextLevel)
+        {
+            currRound = 1;
+            EventBus.Publish(GameEvents.NextLevel);
+        }
+        else
+        {
+            EventBus.Publish(GameEvents.StartRound);
+        }
         
-        currRound = 0;
-        EventBus.Publish(GameEvents.NextLevel);
+        print("CurrentRound: " + currRound);
+
     }
 
     private void NextLevel()
