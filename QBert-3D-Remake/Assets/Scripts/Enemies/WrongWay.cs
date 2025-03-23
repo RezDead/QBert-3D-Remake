@@ -1,11 +1,19 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Class highlighting the unique functionality of the wrong way type enemy.
+ */
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WrongWay : BaseEnemy
 {
     public bool rightStart;
     
+    /// <summary>
+    /// Moves downwards randomly
+    /// </summary>
     protected override IEnumerator Descend()
     {
         for (int timesDescended = 0; timesDescended < 8; timesDescended++)
@@ -26,6 +34,9 @@ public class WrongWay : BaseEnemy
     
     private bool _moving;
     
+    /// <summary>
+    /// Altered movement to account for being sideways and what direction it started on, this function sets the positions
+    /// </summary>
     private void WrongMove(Direction direction)
     {
         _moving = true;
@@ -64,6 +75,9 @@ public class WrongWay : BaseEnemy
 
     }
     
+    /// <summary>
+    /// Causes the movement
+    /// </summary>
     private void Update()
     {
         if (!_moving) return;

@@ -1,3 +1,9 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * State that causes the moving object to face a certain direction.
+ */
+
 using UnityEngine;
 
 public class LookState : MonoBehaviour, IMovementState
@@ -14,6 +20,9 @@ public class LookState : MonoBehaviour, IMovementState
         _childTransform = this.gameObject.transform.GetChild(0);
     }
 
+    /// <summary>
+    /// Rotates moving object to face a direction
+    /// </summary>
     public void Handle(MovingObject movingObject)
     {
         if (!_movingObject)

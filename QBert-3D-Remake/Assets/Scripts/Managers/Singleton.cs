@@ -1,3 +1,9 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Script that when inherited turns that class into a singleton.
+ */
+
 using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : Component

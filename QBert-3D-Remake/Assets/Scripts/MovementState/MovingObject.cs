@@ -1,3 +1,9 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Inherited class detailing all the properties for a moving object. Primarily handing the states of it.
+ */
+
 using UnityEngine;
 
 public class MovingObject : MonoBehaviour

@@ -1,4 +1,9 @@
-using System;
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Script that handles the player controls and movement.
+ */
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,16 +25,12 @@ public class PlayerController : MovingObject
     private void Awake()
     {
         _playerControls = new PlayerControls();
-        EventBus.Subscribe(GameEvents.DiscUsed, DiscUsed);
-    }
-
-    private void OnDestroy()
-    {
-        EventBus.Unsubscribe(GameEvents.DiscUsed, DiscUsed);
     }
 
     private void OnEnable()
     {
+        EventBus.Subscribe(GameEvents.DiscUsed, DiscUsed);
+        
         _upLeft = _playerControls.PlayerMovement.UpLeft;
         _upLeft.Enable();
         _upLeft.performed += UpLeft;
@@ -49,6 +50,8 @@ public class PlayerController : MovingObject
 
     private void OnDisable()
     {
+        EventBus.Unsubscribe(GameEvents.DiscUsed, DiscUsed);
+        
         _upLeft.Disable();
         _upRight.Disable();
         _downLeft.Disable();
@@ -87,6 +90,9 @@ public class PlayerController : MovingObject
         StartCoroutine(UpdateMovement());
     }
 
+    /// <summary>
+    /// Sets the movement positions
+    /// </summary>
     private void DiscUsed()
     {
         _startPos = transform.position;
@@ -96,6 +102,9 @@ public class PlayerController : MovingObject
         StartCoroutine(DiscMovement());
     }
 
+    /// <summary>
+    /// Updates the current conditions of the player to allow for disc movement
+    /// </summary>
     private IEnumerator DiscMovement()
     {
         _moving = true;
@@ -105,6 +114,9 @@ public class PlayerController : MovingObject
         _moving = false;
     }
 
+    /// <summary>
+    /// Updates the movement status of the player
+    /// </summary>
     private IEnumerator UpdateMovement()
     {
         _moving = true;
@@ -115,6 +127,10 @@ public class PlayerController : MovingObject
             EventBus.Publish(GameEvents.PlayerDeath);
     }
 
+    /// <summary>
+    /// Checks what ground the player landed on
+    /// </summary>
+    /// <returns>True if valid landing location, false if not</returns>
     private bool CheckIfValid()
     {
         RaycastHit hit;
@@ -131,6 +147,9 @@ public class PlayerController : MovingObject
         return hitObj;
     }
 
+    /// <summary>
+    /// Used for disc movement, lerping between previously set positions
+    /// </summary>
     private void Update()
     {
         if (!_discMoving) return;

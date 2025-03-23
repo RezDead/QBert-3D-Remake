@@ -1,3 +1,9 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Script that makes the disc work and add score to the game.
+ */
+
 using UnityEngine;
 
 public class Disc : MonoBehaviour
@@ -7,13 +13,18 @@ public class Disc : MonoBehaviour
     public void OnEnable()
     {
         EventBus.Subscribe(GameEvents.EndRound, EndRound);
+        EventBus.Subscribe(GameEvents.StartRound, OnStartRound);
     }
 
     public void OnDisable()
     {
         EventBus.Unsubscribe(GameEvents.EndRound, EndRound);
+        EventBus.Unsubscribe(GameEvents.StartRound, OnStartRound);
     }
 
+    /// <summary>
+    /// Adds points at the end of the round based on what the current level is
+    /// </summary>
     private void EndRound()
     {
         if (!_active) return;
@@ -28,17 +39,18 @@ public class Disc : MonoBehaviour
         }
     }
 
-    public void Start()
-    {
-        EventBus.Subscribe(GameEvents.StartRound, OnStartRound);
-    }
-
+    /// <summary>
+    /// Enables the disc at the start of round
+    /// </summary>
     private void OnStartRound()
     {
         _active = true;
         transform.GetChild(0).gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Disables disc at end of round
+    /// </summary>
     public void DiscHit()
     {
         _active = false;

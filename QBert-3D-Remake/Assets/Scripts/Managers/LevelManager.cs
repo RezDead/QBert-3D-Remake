@@ -1,3 +1,9 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Script that handles most of the game events within the project and manages how objects work with the levels.
+ */
+
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -23,7 +29,8 @@ public class LevelManager : Singleton<LevelManager>
         EventBus.Subscribe(GameEvents.EndRound, EndRound);
         EventBus.Subscribe(GameEvents.DiscUsed, DiscUsed);
         EventBus.Subscribe(GameEvents.PlayerDeath, PlayerDeath);
-        EventBus.Subscribe(GameEvents.NextLevel, NextLevel);
+        EventBus.Subscribe(GameEvents.Win, OnGameEnd);
+        EventBus.Subscribe(GameEvents.GameOver, OnGameEnd);
     }
 
     private void OnDisable()
@@ -32,14 +39,30 @@ public class LevelManager : Singleton<LevelManager>
         EventBus.Unsubscribe(GameEvents.EndRound, EndRound);
         EventBus.Unsubscribe(GameEvents.DiscUsed, DiscUsed);
         EventBus.Unsubscribe(GameEvents.PlayerDeath, PlayerDeath);
-        EventBus.Unsubscribe(GameEvents.NextLevel, NextLevel);
+        EventBus.Unsubscribe(GameEvents.GameOver, OnGameEnd);
+        EventBus.Unsubscribe(GameEvents.Win, OnGameEnd);
     }
     
+    /// <summary>
+    /// Triggers initial level start
+    /// </summary>
     private void Start()
     {
         EventBus.Publish(GameEvents.NextLevel);
     }
 
+    /// <summary>
+    /// Disables level manager when game is over
+    /// </summary>
+    private void OnGameEnd()
+    {
+        EnemyManager.instance.StopSpawning();
+        gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Details what happens when the player death event happens
+    /// </summary>
     private void PlayerDeath()
     {
         EnemyManager.instance.ResetEnemies(true);
@@ -47,6 +70,9 @@ public class LevelManager : Singleton<LevelManager>
         StartCoroutine(PlayerDeathEnemyDelay());
     }
 
+    /// <summary>
+    /// Delays enemy spawns to player respawn time
+    /// </summary>
     private IEnumerator PlayerDeathEnemyDelay()
     {
         EnemyManager.instance.StopSpawning();
@@ -54,11 +80,17 @@ public class LevelManager : Singleton<LevelManager>
         EnemyManager.instance.StartSpawning();
     }
 
+    /// <summary>
+    /// Details what happens when the disc used event happens
+    /// </summary>
     private void DiscUsed()
     {
         StartCoroutine(OnDiscUsed());
     }
 
+    /// <summary>
+    /// What happens on disc used
+    /// </summary>
     private IEnumerator OnDiscUsed()
     {
         EnemyManager.instance.StopSpawning();
@@ -67,11 +99,9 @@ public class LevelManager : Singleton<LevelManager>
         EnemyManager.instance.StartSpawning();
     }
 
-    private void NextLevel()
-    {
-        print("Next Level");
-    }
-    
+    /// <summary>
+    /// Details what happens when the start round event happens
+    /// </summary>
     private void StartRound()
     {
         print("Start Round");
@@ -85,6 +115,9 @@ public class LevelManager : Singleton<LevelManager>
         EnemyManager.instance.StartSpawning();
     }
     
+    /// <summary>
+    /// Details what happens when the end round event happens
+    /// </summary>
     private void EndRound()
     {
         print("End Round");
@@ -94,6 +127,9 @@ public class LevelManager : Singleton<LevelManager>
         EnemyManager.instance.StartSpawning();
     }
     
+    /// <summary>
+    /// Respawns the player
+    /// </summary>
     private IEnumerator PlayerRespawn()
     {
         Destroy(_player);

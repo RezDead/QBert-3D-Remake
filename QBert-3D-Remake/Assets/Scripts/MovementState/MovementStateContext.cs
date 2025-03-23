@@ -1,3 +1,9 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Manages the transition of states for moving objects.
+ */
+
 public class MovementStateContext
 {
     public IMovementState currentState { get; set; }

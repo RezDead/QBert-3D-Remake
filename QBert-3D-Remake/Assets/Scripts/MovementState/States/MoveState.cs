@@ -1,3 +1,9 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * State that causes the moving object to move in a certain direction.
+ */
+
 using UnityEngine;
 
 public class MoveState : MonoBehaviour, IMovementState
@@ -11,6 +17,9 @@ public class MoveState : MonoBehaviour, IMovementState
     
     private bool _moving;
     
+    /// <summary>
+    /// Sets the movements positions for movement in a specified direction
+    /// </summary>
     public void Handle(MovingObject movingObject)
     {
         if (!_movingObject)
@@ -43,6 +52,9 @@ public class MoveState : MonoBehaviour, IMovementState
         }
     }
 
+    /// <summary>
+    /// Lerps the movement over a short period
+    /// </summary>
     private void Update()
     {
         if (_moving)

@@ -1,12 +1,20 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Class highlighting the unique functionality of the purple egg type enemy.
+ */
+
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class PurpleEgg : BaseEnemy
 {
     private Vector3 _currPlayerPos;
     [SerializeField] private Mesh snakeMesh;
     
+    /// <summary>
+    /// Changes from egg to snake
+    /// </summary>
     protected override void AfterDescend()
     {
         GetComponentInChildren<MeshFilter>().mesh = snakeMesh;
@@ -15,6 +23,9 @@ public class PurpleEgg : BaseEnemy
         StartCoroutine(Chase());
     }
     
+    /// <summary>
+    /// Causes the snake the chase the player and fall off if need be
+    /// </summary>
     private IEnumerator Chase()
     {
         _currPlayerPos = LevelManager.instance.ReturnPlayerPosition();
@@ -80,6 +91,10 @@ public class PurpleEgg : BaseEnemy
         StartCoroutine(Chase());
     }
     
+    /// <summary>
+    /// Checks if landed on a valid floor
+    /// </summary>
+    /// <returns>True if landed on a valid floor, false if not</returns>
     private bool CheckIfValid()
     {
         RaycastHit hit;

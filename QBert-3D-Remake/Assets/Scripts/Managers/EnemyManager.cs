@@ -1,3 +1,9 @@
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Handles all things related to enemy spawning and despawning.
+ */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +30,9 @@ public class EnemyManager : Singleton<EnemyManager>
     private List<Enemy> _currEnemies = new List<Enemy>();
     private bool _isSpawning = false;
 
+    /// <summary>
+    /// Starts the spawning process
+    /// </summary>
     public void StartSpawning()
     {
         if (_isSpawning) return;
@@ -31,6 +40,9 @@ public class EnemyManager : Singleton<EnemyManager>
         StartCoroutine(SpawnEnemies());
     }
     
+    /// <summary>
+    /// Stops any ongoing spawning
+    /// </summary>
     public void StopSpawning()
     {
         if (!_isSpawning) return;
@@ -55,14 +67,25 @@ public class EnemyManager : Singleton<EnemyManager>
 
         GameObject spawnedEnemyObj;
 
+        Vector3 spawnLocation;
+
+        if (Random.Range(0, 2) == 0)
+        {
+            spawnLocation = LevelManager.instance.newWorldZero - new Vector3(0, 1, 1);
+        }
+        else
+        {
+            spawnLocation = LevelManager.instance.newWorldZero - new Vector3(1, 1, 0);
+        }
+
         switch (enemySpawned)
         {
             case EnemyTypes.RedEgg:
-                spawnedEnemyObj = Instantiate(enemyTypes[0], LevelManager.instance.newWorldZero, Quaternion.identity);
+                spawnedEnemyObj = Instantiate(enemyTypes[0], spawnLocation, Quaternion.identity);
                 _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.RedEgg));
                 break;
             case EnemyTypes.PurpleEgg:
-                spawnedEnemyObj = Instantiate(enemyTypes[1], LevelManager.instance.newWorldZero, Quaternion.identity);
+                spawnedEnemyObj = Instantiate(enemyTypes[1], spawnLocation, Quaternion.identity);
                 _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.PurpleEgg));
                 break;
             case EnemyTypes.WrongWay:
@@ -80,7 +103,7 @@ public class EnemyManager : Singleton<EnemyManager>
                 }
                 break;
             case EnemyTypes.Slick:
-                spawnedEnemyObj = Instantiate(enemyTypes[3], LevelManager.instance.newWorldZero, Quaternion.identity);
+                spawnedEnemyObj = Instantiate(enemyTypes[3], spawnLocation, Quaternion.identity);
                 _currEnemies.Add(new Enemy(spawnedEnemyObj, EnemyTypes.RedEgg));
                 break;
             default:
@@ -92,6 +115,10 @@ public class EnemyManager : Singleton<EnemyManager>
         StartCoroutine(SpawnEnemies());
     }
     
+    /// <summary>
+    /// Kills all enemies in the level
+    /// </summary>
+    /// <param name="killPurple">If true also kills the purple enemies</param>
     public void ResetEnemies(bool killPurple)
     {
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1508297776733771577}
   - component: {fileID: 2921077800591187876}
   - component: {fileID: 1868119176981277669}
+  - component: {fileID: 5742917472184435679}
   m_Layer: 0
   m_Name: ManagerContainer
   m_TagString: Untagged
@@ -50,7 +51,7 @@ MonoBehaviour:
     type: 3}
   respawnTime: 3
   discUseTime: 4
-  discsInScene: 0
+  newWorldZero: {x: 100, y: 100, z: 100}
 --- !u!114 &2921077800591187876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,11 +64,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a2b63ed9606294bac3c1e10078c890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScore: 0
-  lives: 3
-  currLevel: 0
-  currRound: 1
-  roundsBeforeNextLevel: 1
+  _lives: 3
+  roundsBeforeNextLevel: 3
 --- !u!114 &1868119176981277669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,3 +84,15 @@ MonoBehaviour:
   - {fileID: 6033973794173732180, guid: 34de7534030bc0046a46172e41f89ce7, type: 3}
   - {fileID: 6033973794173732180, guid: 46c27c68dc209c445899f13f3c1ad8bc, type: 3}
   enemySpawnRate: 7
+--- !u!114 &5742917472184435679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2292968843759293526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238e68aa4768f644ebf290d2165ae40a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

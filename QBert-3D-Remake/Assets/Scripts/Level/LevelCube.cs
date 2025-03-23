@@ -1,6 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Script that describes the functionality of the main cubes of the level.
+ */
+
 using UnityEngine;
 
 public class LevelCube : MonoBehaviour
@@ -23,11 +26,17 @@ public class LevelCube : MonoBehaviour
         EventBus.Unsubscribe(GameEvents.EndRound, NextRound);
     }
     
+    /// <summary>
+    /// Sets starting color
+    /// </summary>
     private void Start()
     {
         GetComponent<MeshRenderer>().material = color[_currColor];
     }
 
+    /// <summary>
+    /// Resets the cube to base settings
+    /// </summary>
     private void NextRound()
     {
         _currColor = 0;
@@ -75,6 +84,9 @@ public class LevelCube : MonoBehaviour
         _completed = false;
     }
 
+    /// <summary>
+    /// Updates cube based on what collided with it
+    /// </summary>
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))

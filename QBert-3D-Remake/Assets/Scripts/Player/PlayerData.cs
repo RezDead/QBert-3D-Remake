@@ -1,5 +1,13 @@
-using System;
+/*
+ * Author: Kroeger-Miller, Julian
+ * Last Updated: 03/22/2025
+ * Manager for all the main data points and managing level transitions.
+ */
+
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerData : Singleton<PlayerData>
 {
@@ -67,9 +75,14 @@ public class PlayerData : Singleton<PlayerData>
     public override void Awake()
     {
         base.Awake();
+        
+        //Updates rounds to be more readable
         roundsBeforeNextLevel++;
     }
-
+    
+    /// <summary>
+    /// What happens on player death
+    /// </summary>
     private void PlayerDeath()
     {
         lives--;
@@ -79,12 +92,25 @@ public class PlayerData : Singleton<PlayerData>
         }
     }
 
+    /// <summary>
+    /// Details what happens on end of round
+    /// </summary>
     private void EndRound()
+    {
+        StartCoroutine(OnEndRound());
+    }
+
+    /// <summary>
+    /// Details what happens on end of round
+    /// </summary>
+    private IEnumerator OnEndRound()
     {
         currRound++;
         if (currRound >= roundsBeforeNextLevel)
         {
             currRound = 1;
+            SceneManager.LoadScene(currLevel + 1);
+            yield return new WaitForNextFrameUnit();
             EventBus.Publish(GameEvents.NextLevel);
         }
         else
@@ -96,10 +122,13 @@ public class PlayerData : Singleton<PlayerData>
 
     }
 
+    /// <summary>
+    /// Details what happens on level start
+    /// </summary>
     private void NextLevel()
     {
         currLevel++;
         print("Current Level: " + currLevel);
-        EventBus.Publish(GameEvents.StartRound);
+        EventBus.Publish(currLevel > 3 ? GameEvents.Win : GameEvents.StartRound);
     }
 }
